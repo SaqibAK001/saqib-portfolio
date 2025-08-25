@@ -207,18 +207,63 @@ footer {
 }
 
 /* Responsive Design */
+/* Mobile-friendly adjustments */
 @media (max-width: 768px) {
+
+    /* Hero Section */
+    header {
+        flex-direction: column;
+        padding: 80px 20px;
+        height: auto;
+        text-align: center;
+    }
+
+    .hero-text h1 {
+        font-size: 2em; /* smaller heading */
+        line-height: 1.3;
+    }
+
+    .typewriter {
+        font-size: 1em; /* smaller typewriter text */
+    }
+
+    /* Navigation */
+    nav ul {
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px 0;
+    }
+
+    /* Sections */
+    section {
+        padding: 40px 20px; /* more breathing room */
+    }
+
+    /* Projects */
+    .projects-container {
+        grid-template-columns: 1fr; /* single column */
+        gap: 20px;
+    }
+
+    .project-card {
+        padding: 15px; /* more padding */
+        font-size: 0.95em; /* slightly smaller text */
+    }
+
+    /* Experience cards */
     .experience-card {
-        margin-bottom: 20px; /* slightly smaller spacing for mobile */
-        padding: 15px; /* slightly reduced padding for smaller screens */
+        margin-bottom: 25px; /* more space between cards */
+        padding: 15px;
     }
 
     .experience-card h3 {
-        font-size: 1.3em; /* smaller heading on mobile */
+        font-size: 1.3em;
     }
 
-    .experience-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+    /* Contact section */
+    #contact p {
+        font-size: 0.95em;
+        margin-bottom: 10px;
     }
 }
+
