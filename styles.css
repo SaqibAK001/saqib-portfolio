@@ -20,6 +20,7 @@ nav {
     top: 0;
     background-color: #161b22;
     z-index: 1000;
+    flex-wrap: wrap;
 }
 
 nav ul {
@@ -44,6 +45,9 @@ nav .logo {
     font-size: 1.8em;
     color: #58a6ff;
     font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* Hamburger menu */
@@ -259,6 +263,10 @@ footer {
     nav ul li {
         text-align: center;
         margin: 10px 0;
+    }
+
+    nav .logo {
+        font-size: clamp(1.2em, 5vw, 1.8em);
     }
 
     .projects-container {
