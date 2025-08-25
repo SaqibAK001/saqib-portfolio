@@ -30,7 +30,7 @@ const projects = [
     {
         name: "Blood Disease Prediction System",
         desc: "Built a machine learning model to predict whether the user had any diseases using data from a blood report.",
-        link: "https://github.com/SaqibAK001/comparison_of_sorting_algorithms"
+        link: "https://github.com/SaqibAK001/blood-work-disease-prediction"
     },
     {
         name: "Dairy Farm Management System",
@@ -40,7 +40,7 @@ const projects = [
     {
         name: "A* Pathfinding on Hexagonal Grid",
         desc: "Implemented A* algorithm on a hex grid using Python and Matplotlib, demonstrating optimal pathfinding and visualization.",
-        link: "https://github.com/SaqibAK001/A_star_pathfinding_in_hexagonal_grid"
+        link: "https://github.com/SaqibAK001/A_star_pathfinder_in_hexagonal_grid"
     },
     {
         name: "Blood Bank Management System",
