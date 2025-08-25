@@ -8,6 +8,7 @@ body {
     color: #c9d1d9;
     scroll-behavior: smooth;
     line-height: 1.6;
+    padding-top: 60px; /* avoid sticky nav overlap */
 }
 
 /* Navigation */
@@ -16,17 +17,28 @@ nav {
     justify-content: space-between;
     align-items: center;
     padding: 15px 40px;
+    background-color: #161b22;
     position: sticky;
     top: 0;
-    background-color: #161b22;
     z-index: 1000;
     flex-wrap: wrap;
+}
+
+nav .logo {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.8em;
+    font-weight: 700;
+    color: #58a6ff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 nav ul {
     display: flex;
     list-style: none;
     gap: 20px;
+    margin: 0;
 }
 
 nav ul li a {
@@ -40,34 +52,27 @@ nav ul li a:hover {
     color: #1f6feb;
 }
 
-nav .logo {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1.8em;
-    color: #58a6ff;
-    font-weight: 700;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
 /* Hamburger menu */
 .hamburger {
     display: none;
-    font-size: 2em;
-    cursor: pointer;
-    color: #58a6ff;
 }
 
 /* Hero Section */
 header {
-    min-height: auto; /* allow height to adjust to content */
-    padding: 100px 20px 40px 20px; /* more top & bottom padding */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+    text-align: center;
+    background: linear-gradient(135deg, #0d1117, #161b22);
+    padding: 0 20px;
 }
 
-.hero-text {
-    max-width: 100%;
+.hero-text h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 3em;
+    margin-bottom: 15px;
 }
-
 
 .typewriter {
     font-weight: 400;
@@ -215,7 +220,7 @@ footer {
 @media (max-width: 768px) {
     header {
         flex-direction: column;
-        padding: 80px 20px;
+        padding: 100px 20px 40px 20px;
         height: auto;
     }
 
@@ -261,6 +266,7 @@ footer {
 
     nav .logo {
         font-size: clamp(1.2em, 5vw, 1.8em);
+        margin-bottom: 10px;
     }
 
     .projects-container {
