@@ -1,0 +1,224 @@
+/* Google Fonts: Montserrat for headings, Open Sans for body */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Open+Sans:wght@400;600&display=swap');
+
+body {
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+    background-color: #0d1117;
+    color: #c9d1d9;
+    scroll-behavior: smooth;
+    line-height: 1.6;
+}
+
+/* Navigation */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    position: sticky;
+    top: 0;
+    background-color: #161b22;
+    z-index: 1000;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+}
+
+nav ul li a {
+    color: #58a6ff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+nav ul li a:hover {
+    color: #1f6feb;
+}
+
+nav .logo {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.8em;
+    color: #58a6ff;
+    font-weight: 700;
+}
+
+/* Hero Section */
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+    text-align: center;
+    background: linear-gradient(135deg, #0d1117, #161b22);
+    padding: 0 20px;
+}
+
+.hero-text h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 3em;
+    margin-bottom: 15px;
+}
+
+.typewriter {
+    font-weight: 400;
+    font-size: 1.3em;
+    color: #58a6ff;
+    overflow: hidden;
+    border-right: .15em solid #58a6ff;
+    white-space: nowrap;
+    margin: 0 auto;
+    animation: typing 3s steps(50, end), blink-caret .75s step-end infinite;
+}
+
+@keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+@keyframes blink-caret {
+    50% { border-color: transparent; }
+}
+
+.social-links {
+    margin-top: 20px;
+}
+
+.social-links a {
+    margin: 0 12px;
+    color: #58a6ff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: transform 0.3s, color 0.3s;
+}
+
+.social-links a:hover {
+    transform: scale(1.2);
+    color: #1f6feb;
+}
+
+/* Sections */
+section {
+    padding: 60px 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+h2 {
+    font-family: 'Montserrat', sans-serif;
+    color: #58a6ff;
+    font-size: 2.5em;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+/* Projects */
+.projects-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.project-card {
+    background-color: #161b22;
+    padding: 20px;
+    border-radius: 12px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.project-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+}
+
+.project-card h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.project-card p {
+    font-size: 0.95em;
+    margin-bottom: 10px;
+}
+
+.project-card a {
+    text-decoration: none;
+    color: #58a6ff;
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+.project-card a:hover {
+    color: #1f6feb;
+}
+
+/* Experience Cards */
+.experience-card {
+    background-color: #161b22;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 30px; /* default spacing for desktop */
+}
+
+.experience-card h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.experience-card p {
+    margin: 5px 0;
+}
+
+.experience-card ul {
+    margin-top: 10px;
+    padding-left: 20px;
+}
+
+/* Hover effect for experience cards */
+.experience-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.6);
+    background-color: #1b1f28; /* slightly lighter shade */
+}
+
+/* Fade-in Animation */
+.fade-in {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #161b22;
+    font-size: 0.9em;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .experience-card {
+        margin-bottom: 20px; /* slightly smaller spacing for mobile */
+        padding: 15px; /* slightly reduced padding for smaller screens */
+    }
+
+    .experience-card h3 {
+        font-size: 1.3em; /* smaller heading on mobile */
+    }
+
+    .experience-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+    }
+}
