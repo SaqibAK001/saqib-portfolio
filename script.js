@@ -8,23 +8,17 @@ hamburger.addEventListener('click', () => {
 
 // Fade-in on scroll
 const faders = document.querySelectorAll('.fade-in');
+const appearOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
 
-const appearOptions = {
-    threshold: 0.1,
-    rootMargin: "0px 0px -50px 0px"
-};
-
-const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+const appearOnScroll = new IntersectionObserver(function(entries, observer){
     entries.forEach(entry => {
         if (!entry.isIntersecting) return;
         entry.target.classList.add('visible');
-        appearOnScroll.unobserve(entry.target);
+        observer.unobserve(entry.target);
     });
 }, appearOptions);
 
-faders.forEach(fader => {
-    appearOnScroll.observe(fader);
-});
+faders.forEach(fader => appearOnScroll.observe(fader));
 
 // Projects Data
 const projects = [
@@ -35,7 +29,7 @@ const projects = [
     },
     {
         name: "Blood Disease Prediction System",
-        desc: "Built a machine learning model to predict wheather the user had any diseases using data from a blood report.",
+        desc: "Built a machine learning model to predict whether the user had any diseases using data from a blood report.",
         link: "https://github.com/SaqibAK001/comparison_of_sorting_algorithms"
     },
     {
@@ -56,11 +50,6 @@ const projects = [
     {
         name: "Sorting Algorithm Analyzer",
         desc: "Implemented and compared Insertion Sort, Heap Sort, and Selection Sort in C. Analyzed performance and time complexity.",
-        link: "https://github.com/SaqibAK001/comparison_of_sorting_algorithms"
-    },
-    {
-        name: "Blood Disease Prediction System",
-        desc: "Built a machine learning model to predict wheather the user had any diseases using data from a blood report.",
         link: "https://github.com/SaqibAK001/comparison_of_sorting_algorithms"
     }
 ];
