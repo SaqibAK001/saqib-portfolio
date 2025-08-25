@@ -34,14 +34,19 @@ const projects = [
         link: "https://github.com/SaqibAK001/loan_approval"
     },
     {
+        name: "Blood Disease Prediction System",
+        desc: "Built a machine learning model to predict wheather the user had any diseases using data from a blood report.",
+        link: "https://github.com/SaqibAK001/comparison_of_sorting_algorithms"
+    },
+    {
         name: "Dairy Farm Management System",
         desc: "Full-stack web application to manage dairy operations including cow medical records, milk production, and sales tracking.",
-        link: "https://github.com/SaqibAK001/cow_farm_management"
+        link: "https://github.com/SaqibAK001/dairy_database"
     },
     {
         name: "A* Pathfinding on Hexagonal Grid",
         desc: "Implemented A* algorithm on a hex grid using Python and Matplotlib, demonstrating optimal pathfinding and visualization.",
-        link: "https://github.com/SaqibAK001/hex_pathfinding"
+        link: "https://github.com/SaqibAK001/A_star_pathfinding_in_hexagonal_grid"
     },
     {
         name: "Blood Bank Management System",
@@ -51,7 +56,12 @@ const projects = [
     {
         name: "Sorting Algorithm Analyzer",
         desc: "Implemented and compared Insertion Sort, Heap Sort, and Selection Sort in C. Analyzed performance and time complexity.",
-        link: "https://github.com/SaqibAK001/sorting_algorithms"
+        link: "https://github.com/SaqibAK001/comparison_of_sorting_algorithms"
+    },
+    {
+        name: "Blood Disease Prediction System",
+        desc: "Built a machine learning model to predict wheather the user had any diseases using data from a blood report.",
+        link: "https://github.com/SaqibAK001/comparison_of_sorting_algorithms"
     }
 ];
 
