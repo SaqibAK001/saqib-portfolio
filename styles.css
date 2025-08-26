@@ -225,15 +225,15 @@ footer {
 }
 
 .intro {
-    color: #c9d1d9;
+    color: #58a6ff;
     font-size: 1.2rem;
     margin-top: 10px;
     text-align: center;
     max-width: 90%;
     line-height: 1.4;
     overflow: hidden;  
-    border-right: 2px solid #c9d1d9;  /* typing cursor */
-    white-space: normal;  /* allow wrapping */
+    border-right: 2px solid #58a6ff;
+    white-space: normal;
     word-wrap: break-word;
     overflow-wrap: break-word;
     display: inline-block;
