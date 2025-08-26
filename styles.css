@@ -1,4 +1,3 @@
-/* Google Fonts: Montserrat for headings, Open Sans for body */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Open+Sans:wght@400;600&display=swap');
 
 body {
@@ -8,6 +7,7 @@ body {
     color: #c9d1d9;
     scroll-behavior: smooth;
     line-height: 1.6;
+    padding-top: 60px;
 }
 
 /* Navigation */
@@ -16,16 +16,28 @@ nav {
     justify-content: space-between;
     align-items: center;
     padding: 15px 40px;
+    background-color: #161b22;
     position: sticky;
     top: 0;
-    background-color: #161b22;
     z-index: 1000;
+    flex-wrap: wrap;
+}
+
+nav .logo {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.8em;
+    font-weight: 700;
+    color: #58a6ff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 nav ul {
     display: flex;
     list-style: none;
     gap: 20px;
+    margin: 0;
 }
 
 nav ul li a {
@@ -39,11 +51,8 @@ nav ul li a:hover {
     color: #1f6feb;
 }
 
-nav .logo {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1.8em;
-    color: #58a6ff;
-    font-weight: 700;
+.hamburger {
+    display: none;
 }
 
 /* Hero Section */
@@ -51,10 +60,20 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     height: 90vh;
     text-align: center;
     background: linear-gradient(135deg, #0d1117, #161b22);
     padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.hero-text {
+    max-width: 800px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .hero-text h1 {
@@ -149,7 +168,6 @@ h2 {
     text-decoration: none;
     color: #58a6ff;
     font-weight: 600;
-    transition: color 0.3s;
 }
 
 .project-card a:hover {
@@ -161,7 +179,8 @@ h2 {
     background-color: #161b22;
     padding: 20px;
     border-radius: 12px;
-    margin-bottom: 30px; /* default spacing for desktop */
+    margin-bottom: 30px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
 }
 
 .experience-card h3 {
@@ -179,11 +198,10 @@ h2 {
     padding-left: 20px;
 }
 
-/* Hover effect for experience cards */
 .experience-card:hover {
     transform: translateY(-8px);
     box-shadow: 0 12px 24px rgba(0,0,0,0.6);
-    background-color: #1b1f28; /* slightly lighter shade */
+    background-color: #1b1f28;
 }
 
 /* Fade-in Animation */
@@ -206,19 +224,103 @@ footer {
     font-size: 0.9em;
 }
 
+.intro {
+    color: #58a6ff;
+    font-size: 1.2rem;
+    margin-top: 10px;
+    text-align: center;
+    max-width: 90%;
+    line-height: 1.4;
+    overflow: hidden;  
+    border-right: 2px solid #58a6ff;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    display: inline-block;
+    animation: typing 4s steps(40, end), blink .7s step-end infinite;
+}
+
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
+
+@keyframes blink {
+    50% { border-color: transparent }
+}
+
+
 /* Responsive Design */
 @media (max-width: 768px) {
-    .experience-card {
-        margin-bottom: 20px; /* slightly smaller spacing for mobile */
-        padding: 15px; /* slightly reduced padding for smaller screens */
+    header {
+        height: auto;
+        padding: 80px 20px 40px 20px;
+    }
+
+    .intro {
+        font-size: 1rem;
+        max-width: 100%;
+    }
+    .hero-text h1 {
+        font-size: 2em;
+        line-height: 1.3;
+    }
+
+    .typewriter {
+        font-size: 1em;
+    }
+
+    .social-links {
+        margin-top: 15px;
+    }
+
+    nav ul {
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background-color: #161b22;
+        display: none;
+        padding: 10px 0;
+        z-index: 1000;
+    }
+
+    nav ul.show {
+        display: flex;
+    }
+
+    .hamburger {
+        display: block;
+    }
+
+    nav {
+        justify-content: space-between;
+        padding: 15px 20px;
+        position: relative;
+    }
+
+    nav ul li {
+        text-align: center;
+        margin: 10px 0;
+    }
+
+    nav .logo {
+        font-size: clamp(1.2em, 5vw, 1.8em);
+        margin-bottom: 10px;
+    }
+
+    .projects-container {
+        grid-template-columns: 1fr;
+    }
+
+    .project-card, .experience-card {
+        padding: 15px;
+        font-size: 0.95em;
+        margin-bottom: 25px;
     }
 
     .experience-card h3 {
-        font-size: 1.3em; /* smaller heading on mobile */
-    }
-
-    .experience-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+        font-size: 1.3em;
     }
 }
