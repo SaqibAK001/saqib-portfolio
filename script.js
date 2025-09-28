@@ -54,6 +54,33 @@ const projects = [
     }
 ];
 
+// Extracurricular Data
+const extracurriculars = [
+    {
+        name: "Participated in NMIT x Odoo Hackathon",
+        desc: "Ecofinds is a sustainable e-commerce web application built with Flask and MySQL that enables users to browse and purchase eco-friendly products.",
+        link: "https://github.com/f4zill/Ecofinds"
+    },
+    {
+        name: "Placed in the top 15 in FOSS FEST SEPTEMBER 2025 - NATIONAL HACKATHON",
+        desc: "A minimal legal case management module for Odoo 18 Community, enabling management of lawyers, clients, legal cases, hearings, documents, fixed-fee invoicing, and case summaries.",
+        link: "https://github.com/SaqibAK001/legal-odoo"
+    }
+];
+
+const extraContainer = document.getElementById('extracurricular-container');
+extracurriculars.forEach(activity => {
+    const card = document.createElement('div');
+    card.className = 'project-card'; // reuse same style as project cards
+    card.innerHTML = `
+        <h3>${activity.name}</h3>
+        <p>${activity.desc}</p>
+        <a href="${activity.link}" target="_blank">View More</a>
+    `;
+    extraContainer.appendChild(card);
+});
+
+
 const container = document.getElementById('projects-container');
 projects.forEach(proj => {
     const card = document.createElement('div');
