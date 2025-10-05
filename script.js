@@ -23,6 +23,11 @@ faders.forEach(fader => appearOnScroll.observe(fader));
 // Projects Data
 const projects = [
     {
+        name: "EDITH - AI Document Analyzer",
+        desc: "Created a chatbot which analyzes the provided documents and answers questions related to the documents",
+        link: "https://github.com/SaqibAK001/EDITH"
+    },
+    {
         name: "Loan Approval Prediction System",
         desc: "Built a machine learning model to predict loan approval using applicant data. Deployed via Flask for real-time web interface.",
         link: "https://github.com/SaqibAK001/loan_approval"
