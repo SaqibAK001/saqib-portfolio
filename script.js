@@ -28,6 +28,11 @@ const projects = [
         link: "https://github.com/SaqibAK001/EDITH"
     },
     {
+        name: "Reinforcement Learning based automated Snake game",
+        desc: "Web-based automated snake game which uses q table to get a better score.",
+        link: "https://github.com/SaqibAK001/automated_snake_game"
+    },
+    {
         name: "Loan Approval Prediction System",
         desc: "Built a machine learning model to predict loan approval using applicant data. Deployed via Flask for real-time web interface.",
         link: "https://github.com/SaqibAK001/loan_approval"
@@ -46,16 +51,6 @@ const projects = [
         name: "A* Pathfinding on Hexagonal Grid",
         desc: "Implemented A* algorithm on a hex grid using Python and Matplotlib, demonstrating optimal pathfinding and visualization.",
         link: "https://github.com/SaqibAK001/A_star_pathfinder_in_hexagonal_grid"
-    },
-    {
-        name: "Blood Bank Management System",
-        desc: "Web-based blood bank portal supporting donor/recipient data management and blood stock tracking with Flask and MySQL.",
-        link: "https://github.com/SaqibAK001/bloodbank_database"
-    },
-    {
-        name: "Sorting Algorithm Analyzer",
-        desc: "Implemented and compared Insertion Sort, Heap Sort, and Selection Sort in C. Analyzed performance and time complexity.",
-        link: "https://github.com/SaqibAK001/comparison_of_sorting_algorithms"
     }
 ];
 
