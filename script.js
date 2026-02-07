@@ -56,6 +56,28 @@ const appearOnScroll = new IntersectionObserver((entries) => {
 
 faders.forEach(fader => appearOnScroll.observe(fader));
 
+// Reports Data
+const reports = [
+    {
+        name: "Blood Work Analysis and Disease Prediction using Random Forest Classifier",
+        desc: "This project focuses on predicting diseases from blood work test results using a machine learning approach. A Random Forest Classifier is implemented to analyse various clinical parameters such as glucose levels, cholesterol, hemoglobin, platelet count, and other hematological and biochemical measures.",
+        link: "https://zenodo.org/records/18515019"
+    }
+];
+
+// Load Reports
+const reportContainer = document.getElementById('reports-container');
+reports.forEach(proj => {
+    const card = document.createElement('div');
+    card.className = 'project-card';
+    card.innerHTML = `
+        <h3>${proj.name}</h3>
+        <p>${proj.desc}</p>
+        <a href="${proj.link}" target="_blank">View Project →</a>
+    `;
+    reportContainer.appendChild(card);
+});
+
 // Projects Data
 const projects = [
     {
@@ -91,7 +113,7 @@ const projects = [
 ];
 
 // Load Projects
-const container = document.getElementById('projects-container');
+const projectContainer = document.getElementById('projects-container');
 projects.forEach(proj => {
     const card = document.createElement('div');
     card.className = 'project-card';
@@ -100,7 +122,7 @@ projects.forEach(proj => {
         <p>${proj.desc}</p>
         <a href="${proj.link}" target="_blank">View Project →</a>
     `;
-    container.appendChild(card);
+    projectContainer.appendChild(card);
 });
 
 // Load Extracurriculars
