@@ -3,106 +3,1251 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Saqib Ahmed K - Portfolio</title>
-<link rel="stylesheet" href="styles.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>Saqib Ahmed K · Software Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.module.js"
+  }
+}
+</script>
+<style>
+  :root {
+    --cyan: #00ffff;
+    --cyan-dim: rgba(0,255,255,0.12);
+    --cyan-glow: rgba(0,255,255,0.4);
+    --white: #f4f4f4;
+    --grey: #888;
+    --dark: #0a0a0a;
+    --bg: #000;
+    --mono: 'Space Mono', monospace;
+    --sans: 'DM Sans', sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--white); font-family: var(--sans); overflow-x: hidden; cursor: none; }
+
+  /* CURSOR */
+  #cursor      { position:fixed;width:8px;height:8px;background:var(--cyan);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);box-shadow:0 0 10px var(--cyan),0 0 20px var(--cyan-glow);transition:width .2s,height .2s; }
+  #cursor-ring { position:fixed;width:32px;height:32px;border:1px solid rgba(0,255,255,.4);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .4s cubic-bezier(.17,.4,.02,.99),height .4s,border-color .3s; }
+
+  /* NAV */
+  nav { position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:1.5rem 3rem;background:rgba(0,0,0,.6);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.04); }
+  .nav-logo { font-family:var(--mono);font-size:13px;letter-spacing:.1em;color:rgba(244,244,244,.7);text-decoration:none;z-index:201; }
+  .nav-links { display:flex;gap:2.5rem;list-style:none; }
+  .nav-links a { font-family:var(--mono);font-size:12px;letter-spacing:.12em;color:var(--grey);text-decoration:none;text-transform:uppercase;transition:color .3s;position:relative; }
+  .nav-links a::after { content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--cyan);transition:width .3s cubic-bezier(.17,.4,.02,.99); }
+  .nav-links a:hover { color:var(--cyan); }
+  .nav-links a:hover::after { width:100%; }
+
+  /* HAMBURGER */
+  .nav-hamburger { display:none;flex-direction:column;justify-content:center;align-items:center;gap:5px;width:40px;height:40px;background:none;border:none;cursor:none;z-index:201;padding:4px; }
+  .nav-hamburger span { display:block;width:22px;height:1px;background:var(--white);transition:transform .4s cubic-bezier(.17,.4,.02,.99),opacity .3s,width .3s; }
+  .nav-hamburger.active span:nth-child(1) { transform:translateY(6px) rotate(45deg); }
+  .nav-hamburger.active span:nth-child(2) { opacity:0;width:0; }
+  .nav-hamburger.active span:nth-child(3) { transform:translateY(-6px) rotate(-45deg); }
+
+  /* MOBILE MENU OVERLAY */
+  .nav-overlay { display:none;position:fixed;inset:0;z-index:199;background:rgba(0,0,0,.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);flex-direction:column;justify-content:center;align-items:center;gap:0;opacity:0;transition:opacity .4s ease; }
+  .nav-overlay.open { opacity:1; }
+  .nav-overlay .nav-links { flex-direction:column;gap:0;align-items:center; }
+  .nav-overlay .nav-links li { width:100%;text-align:center;border-bottom:1px solid rgba(255,255,255,.06);opacity:0;transform:translateY(16px);transition:opacity .4s ease,transform .4s ease; }
+  .nav-overlay.open .nav-links li:nth-child(1) { transition-delay:.05s; }
+  .nav-overlay.open .nav-links li:nth-child(2) { transition-delay:.10s; }
+  .nav-overlay.open .nav-links li:nth-child(3) { transition-delay:.15s; }
+  .nav-overlay.open .nav-links li:nth-child(4) { transition-delay:.20s; }
+  .nav-overlay.open .nav-links li:nth-child(5) { transition-delay:.25s; }
+  .nav-overlay.open .nav-links li:nth-child(6) { transition-delay:.30s; }
+  .nav-overlay.open .nav-links li:nth-child(7) { transition-delay:.35s; }
+  .nav-overlay.open .nav-links li { opacity:1;transform:translateY(0); }
+  .nav-overlay .nav-links a { font-size:clamp(1.1rem,4vw,1.4rem);letter-spacing:.2em;padding:1.5rem 2rem;display:block;color:rgba(244,244,244,.7); }
+  .nav-overlay .nav-links a:hover { color:var(--cyan); }
+  .nav-overlay .nav-links a::after { display:none; }
+
+  /* HERO */
+  #hero { height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 3rem 4rem;position:relative;overflow:hidden; }
+  #hero-canvas { position:absolute;inset:0;width:100%;height:100%;z-index:0; }
+  .hero-content { position:relative;z-index:1; }
+  .hero-label { font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--cyan);text-transform:uppercase;margin-bottom:1.5rem;opacity:0;animation:fadeUp .8s cubic-bezier(.17,.4,.02,.99) .3s forwards; }
+  .hero-name { font-family:var(--mono);font-size:clamp(3rem,8vw,8rem);font-weight:700;line-height:.9;letter-spacing:-.02em;color:var(--white);opacity:0;animation:fadeUp .8s cubic-bezier(.17,.4,.02,.99) .5s forwards; }
+  .hero-name .first { display:block; }
+  .hero-name .last  { display:block;color:transparent;-webkit-text-stroke:1px rgba(244,244,244,.35); }
+  .hero-bottom { display:flex;justify-content:space-between;align-items:flex-end;margin-top:3rem;opacity:0;animation:fadeUp .8s cubic-bezier(.17,.4,.02,.99) .7s forwards; }
+  .hero-desc { font-size:14px;color:var(--grey);max-width:360px;line-height:1.7;font-weight:300; }
+  .hero-desc strong { color:var(--white);font-weight:500; }
+  .hero-tags { display:flex;flex-direction:column;align-items:flex-end;gap:6px; }
+  .hero-tag  { font-family:var(--mono);font-size:11px;color:var(--grey);letter-spacing:.1em;opacity:.5; }
+  .scroll-hint { position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;z-index:1;opacity:0;animation:fadeIn 1s ease 1.5s forwards; }
+  .scroll-hint span { font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--grey);text-transform:uppercase; }
+  .scroll-line { width:1px;height:40px;background:linear-gradient(to bottom,var(--cyan),transparent);animation:scrollPulse 2s ease-in-out infinite; }
+  .terminal-line { font-family:var(--mono);font-size:13px;color:var(--grey);margin-bottom:2rem;opacity:0;animation:fadeUp .6s ease .1s forwards; }
+  .terminal-line .prompt { color:var(--cyan);margin-right:8px; }
+  .blink { display:inline-block;width:8px;height:14px;background:var(--cyan);vertical-align:middle;animation:blink 1.2s infinite; }
+
+  /* STANDARD SECTIONS */
+  .std-section { padding:8rem 3rem; }
+  .section-label { font-family:var(--mono);font-size:10px;letter-spacing:.3em;color:var(--cyan);text-transform:uppercase;margin-bottom:.75rem;display:flex;align-items:center;gap:1rem; }
+  .section-label::before { content:'';display:inline-block;width:30px;height:1px;background:var(--cyan); }
+  .section-title { font-family:var(--mono);font-size:clamp(2rem,4vw,3.5rem);font-weight:700;line-height:1;margin-bottom:4rem;letter-spacing:-.02em; }
+
+  /* ABOUT */
+  #about { background:var(--bg); }
+  .about-grid { display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:start; }
+  .about-text p { font-size:16px;line-height:1.8;color:rgba(244,244,244,.7);font-weight:300;margin-bottom:1.5rem; }
+  .about-text p strong { color:var(--white);font-weight:500; }
+  .stats-grid { display:grid;grid-template-columns:1fr 1fr;gap:2rem; }
+  .stat-item { border-top:1px solid rgba(255,255,255,.08);padding-top:1.5rem; }
+  .stat-num   { font-family:var(--mono);font-size:2.5rem;font-weight:700;color:var(--cyan);line-height:1;margin-bottom:.5rem; }
+  .stat-label { font-size:12px;color:var(--grey);letter-spacing:.05em; }
+
+  /* SKILLS */
+  #skills { background:var(--dark); }
+  .skills-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.05); }
+  .skill-group { background:var(--dark);padding:2.5rem;transition:background .3s; }
+  .skill-group:hover { background:#131313; }
+  .skill-group-label { font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--cyan);text-transform:uppercase;margin-bottom:1.5rem; }
+  .skill-tags { display:flex;flex-wrap:wrap;gap:8px; }
+  .skill-tag { font-family:var(--mono);font-size:11px;padding:5px 12px;border:1px solid rgba(255,255,255,.1);border-radius:2px;color:rgba(244,244,244,.65);transition:all .3s;letter-spacing:.05em; }
+  .skill-tag:hover { border-color:var(--cyan);color:var(--cyan);background:var(--cyan-dim);box-shadow:0 0 10px var(--cyan-dim); }
+
+  /* ═══════════════════════════════════════════════════════════
+     PROJECTS — FULL-VIEWPORT 3D WEBGL CAROUSEL + SPINE
+     Sticky container: stays full-height on screen while inner
+     scroll moves the 3D scene.
+     ═══════════════════════════════════════════════════════════ */
+  #projects-scroll { position:relative; }
+  #projects-sticky {
+    position:sticky;top:0;height:100vh;overflow:hidden;
+    background:#000;
+  }
+  #projects-canvas { position:absolute;inset:0;width:100%;height:100%;z-index:0; }
+
+  /* HUD overlays */
+  .proj-hud-label {
+    position:absolute;top:50%;left:3rem;transform:translateY(-50%);
+    z-index:10;pointer-events:none;
+  }
+  .proj-hud-label .section-label { margin-bottom:.5rem; }
+  .proj-hud-title {
+    font-family:var(--mono);font-size:clamp(1.4rem,2.5vw,2.2rem);
+    font-weight:700;color:var(--white);letter-spacing:-.02em;
+    line-height:1.1;margin-bottom:1rem;
+    text-shadow:0 0 30px rgba(0,0,0,.8);
+  }
+  .proj-hud-type {
+    font-family:var(--mono);font-size:10px;letter-spacing:.2em;
+    color:var(--cyan);text-transform:uppercase;opacity:.8;margin-bottom:.75rem;
+  }
+  .proj-hud-stack { display:flex;gap:6px;flex-wrap:wrap; }
+  .proj-hud-stack span {
+    font-family:var(--mono);font-size:10px;padding:3px 10px;
+    border:1px solid rgba(0,255,255,.25);border-radius:2px;
+    color:rgba(0,255,255,.7);letter-spacing:.05em;
+  }
+
+  .proj-github-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 1.25rem;
+    padding: 8px 16px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    text-decoration: none;
+    border: 1px solid rgba(0,255,255,.35);
+    border-radius: 2px;
+    background: rgba(0,255,255,.05);
+    transition: background .3s, border-color .3s, box-shadow .3s, color .3s;
+    pointer-events: auto;
+  }
+  .proj-github-btn:hover {
+    background: rgba(0,255,255,.15);
+    border-color: var(--cyan);
+    box-shadow: 0 0 16px rgba(0,255,255,.2);
+    color: #fff;
+  }
+
+  /* Right-side counter */
+  .proj-counter {
+    position:absolute;right:3rem;top:50%;transform:translateY(-50%);
+    z-index:10;pointer-events:none;text-align:right;
+  }
+  .proj-counter-num {
+    font-family:var(--mono);font-size:4rem;font-weight:700;
+    color:transparent;-webkit-text-stroke:1px rgba(0,255,255,.25);
+    line-height:1;
+  }
+  .proj-counter-total {
+    font-family:var(--mono);font-size:11px;color:var(--grey);
+    letter-spacing:.1em;
+  }
+
+  /* Scroll cue at bottom */
+  .proj-scroll-cue {
+    position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+    z-index:10;display:flex;flex-direction:column;align-items:center;gap:6px;
+    pointer-events:none;
+  }
+  .proj-scroll-cue span { font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--grey);text-transform:uppercase; }
+  .proj-scroll-cue-line { width:1px;height:30px;background:linear-gradient(to bottom,var(--cyan),transparent); }
+
+  /* EXPERIENCE */
+  #experience { background:var(--dark); }
+  .exp-item { display:grid;grid-template-columns:200px 1fr;gap:4rem;padding:3rem 0;border-top:1px solid rgba(255,255,255,.07); }
+  .exp-date { font-family:var(--mono);font-size:11px;color:var(--grey);letter-spacing:.1em;padding-top:4px; }
+  .exp-role { font-family:var(--mono);font-size:1.1rem;font-weight:700;margin-bottom:.25rem; }
+  .exp-company { font-size:13px;color:var(--cyan);margin-bottom:1.5rem;font-weight:400;opacity:.8; }
+  .exp-points { list-style:none; }
+  .exp-points li { font-size:13px;color:rgba(244,244,244,.6);line-height:1.8;padding-left:1.2rem;position:relative;font-weight:300; }
+  .exp-points li::before { content:'→';position:absolute;left:0;color:var(--cyan);opacity:.5;font-size:11px; }
+
+  /* HACKATHONS */
+  #hackathons { background:var(--bg); }
+  .hack-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:rgba(255,255,255,.04); }
+  .hack-item { background:var(--bg);padding:2.5rem;transition:background .3s; }
+  .hack-item:hover { background:#080808; }
+  .hack-badge { font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--cyan);text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:8px; }
+  .hack-badge::before { content:'';display:inline-block;width:6px;height:6px;background:var(--cyan);border-radius:50%;box-shadow:0 0 6px var(--cyan); }
+  .hack-name { font-family:var(--mono);font-size:1rem;font-weight:700;margin-bottom:.5rem; }
+  .hack-desc { font-size:12px;color:var(--grey);line-height:1.6;font-weight:300; }
+
+  /* CERTIFICATIONS */
+  #certifications { background:var(--dark); }
+  .cert-list { display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.5rem; }
+  .cert-item { display:flex;align-items:flex-start;gap:1.2rem;padding:1.5rem;border:1px solid rgba(255,255,255,.06);border-radius:2px;transition:border-color .3s,background .3s; }
+  .cert-item:hover { border-color:rgba(0,255,255,.25);background:var(--cyan-dim); }
+  .cert-dot { width:6px;height:6px;border-radius:50%;background:var(--cyan);box-shadow:0 0 6px var(--cyan);flex-shrink:0;margin-top:5px; }
+  .cert-name   { font-family:var(--mono);font-size:12px;font-weight:700;margin-bottom:4px;line-height:1.4; }
+  .cert-issuer { font-size:11px;color:var(--grey);letter-spacing:.05em; }
+
+  /* CONTACT */
+  #contact { background:var(--bg);text-align:center;padding:10rem 3rem; }
+  .contact-big { font-family:var(--mono);font-size:clamp(2.5rem,6vw,6rem);font-weight:700;line-height:.9;letter-spacing:-.03em;margin-bottom:3rem; }
+  .contact-big .outline { color:transparent;-webkit-text-stroke:1px rgba(244,244,244,.2);display:block; }
+  .contact-links { display:flex;justify-content:center;gap:3rem;flex-wrap:wrap;margin-top:3rem; }
+  .contact-link { font-family:var(--mono);font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--grey);text-decoration:none;transition:color .3s; }
+  .contact-link::before { content:'↗ ';color:var(--cyan);opacity:0;transition:opacity .3s; }
+  .contact-link:hover { color:var(--cyan); }
+  .contact-link:hover::before { opacity:1; }
+  .contact-email { font-family:var(--mono);font-size:clamp(1rem,2vw,1.5rem);color:var(--white);text-decoration:none;display:inline-block;position:relative;padding-bottom:4px; }
+  .contact-email::after { content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:var(--cyan);transform:scaleX(0);transition:transform .4s cubic-bezier(.17,.4,.02,.99); }
+  .contact-email:hover::after { transform:scaleX(1); }
+
+  /* FOOTER */
+  footer { padding:2rem 3rem;border-top:1px solid rgba(255,255,255,.05);display:flex;justify-content:space-between;align-items:center; }
+  footer p { font-family:var(--mono);font-size:10px;color:rgba(255,255,255,.2);letter-spacing:.1em; }
+
+  /* ── BASE: everything starts hidden ─────────────────────────────── */
+  .reveal {
+    opacity: 0;
+    will-change: opacity, transform, filter;
+  }
+
+  /* SECTION LABELS — slide in from left */
+  .section-label.reveal {
+    transform: translateX(-30px);
+    transition: opacity .7s ease, transform .7s cubic-bezier(.16,1,.3,1);
+  }
+  .section-label.reveal.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* SECTION TITLES — chars wipe in via clip-path, no translateY */
+  .section-title.reveal {
+    transform: none;
+    clip-path: inset(0 100% 0 0);
+    transition: opacity .05s, clip-path 1s cubic-bezier(.77,0,.18,1) .1s;
+  }
+  .section-title.reveal.visible {
+    opacity: 1;
+    clip-path: inset(0 0% 0 0);
+  }
+
+  /* TEXT BLOCKS & STAT GRIDS — gentle rise */
+  .about-text.reveal,
+  .stats-grid.reveal {
+    transform: translateY(24px);
+    transition: opacity .9s ease, transform .9s cubic-bezier(.16,1,.3,1);
+  }
+  .about-text.reveal.visible,
+  .stats-grid.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* SKILL GROUPS — scale up from slightly small */
+  .skill-group.reveal {
+    transform: scale(.96) translateY(16px);
+    filter: blur(3px);
+    transition: opacity .7s ease, transform .7s cubic-bezier(.16,1,.3,1), filter .7s ease;
+  }
+  .skill-group.reveal.visible {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0);
+  }
+
+  /* EXPERIENCE ITEMS — slide in from right */
+  .exp-item.reveal {
+    transform: translateX(30px);
+    transition: opacity .8s ease, transform .8s cubic-bezier(.16,1,.3,1);
+  }
+  .exp-item.reveal.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* HACKATHON & CERT CARDS — staggered rise with blur */
+  .hack-item.reveal,
+  .cert-item.reveal {
+    transform: translateY(32px);
+    filter: blur(5px);
+    transition: opacity .75s ease, transform .75s cubic-bezier(.16,1,.3,1), filter .75s ease;
+  }
+  .hack-item.reveal.visible,
+  .cert-item.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+
+  /* CONTACT SECTION — scale in from slightly big */
+  .contact-big.reveal {
+    transform: scale(1.04) translateY(20px);
+    filter: blur(6px);
+    transition: opacity 1s ease, transform 1s cubic-bezier(.16,1,.3,1), filter 1s ease;
+  }
+  .contact-big.reveal.visible {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0);
+  }
+
+  /* GENERIC fallback for anything else with .reveal */
+  .reveal:not(.section-label):not(.section-title):not(.about-text):not(.stats-grid):not(.skill-group):not(.exp-item):not(.hack-item):not(.cert-item):not(.contact-big) {
+    transform: translateY(20px);
+    transition: opacity .8s ease, transform .8s cubic-bezier(.16,1,.3,1);
+  }
+  .reveal:not(.section-label):not(.section-title):not(.about-text):not(.stats-grid):not(.skill-group):not(.exp-item):not(.hack-item):not(.cert-item):not(.contact-big).visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Scroll-progress bar */
+  #scroll-progress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 2px;
+    width: 0%;
+    background: linear-gradient(90deg, var(--cyan), rgba(0,255,255,.3));
+    z-index: 300;
+    transition: width .08s linear;
+    box-shadow: 0 0 8px var(--cyan-glow);
+  }
+
+  @keyframes fadeUp   { from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)} }
+  @keyframes fadeIn   { from{opacity:0}to{opacity:.6} }
+  @keyframes scrollPulse { 0%,100%{opacity:.4;transform:scaleY(1)}50%{opacity:1;transform:scaleY(1.1)} }
+  @keyframes blink    { 0%,100%{opacity:1}50%{opacity:0} }
+
+  /* ── RESPONSIVE ──────────────────────────────────────────── */
+  @media(max-width:900px){
+    .about-grid{grid-template-columns:1fr;gap:3rem}
+    .stats-grid{grid-template-columns:repeat(4,1fr)}
+  }
+
+  @media(max-width:768px){
+    /* Cursor off on touch */
+    body{cursor:auto}
+    #cursor,#cursor-ring{display:none}
+
+    /* Nav */
+    nav{padding:1.2rem 1.5rem}
+    nav > .nav-links{display:none}
+    .nav-hamburger{display:flex}
+    .nav-overlay{display:flex}
+
+    /* Hero */
+    #hero{padding:0 1.5rem 3rem}
+    .hero-name{font-size:clamp(2.6rem,12vw,5rem)}
+    .hero-bottom{flex-direction:column;align-items:flex-start;gap:1.5rem;margin-top:2rem}
+    .hero-tags{align-items:flex-start}
+    .hero-desc{max-width:100%}
+
+    /* Dark scrim behind hero text so it reads clearly over the canvas */
+    .hero-content {
+      background: linear-gradient(
+        to top,
+        rgba(0,0,0,.85) 0%,
+        rgba(0,0,0,.6)  60%,
+        rgba(0,0,0,0)   100%
+      );
+      padding: 2rem 1.25rem 1.25rem;
+      margin: 0 -1.5rem -4rem;
+      border-top: 1px solid rgba(0,255,255,.15);
+    }
+    /* Boost the outline name so it's legible */
+    .hero-name .last { -webkit-text-stroke: 1px rgba(244,244,244,.7); }
+    /* Brighten the description text */
+    .hero-desc { color: rgba(244,244,244,.8); }
+    /* Tags slightly brighter */
+    .hero-tag { opacity: .75; }
+
+    /* Sections */
+    .std-section{padding:5rem 1.5rem}
+    .section-title{font-size:clamp(1.8rem,6vw,2.8rem)}
+
+    /* About */
+    .about-grid{grid-template-columns:1fr;gap:3rem}
+    .stats-grid{grid-template-columns:1fr 1fr}
+
+    /* Skills */
+    .skills-grid{grid-template-columns:1fr}
+
+    /* Projects HUD */
+    .proj-hud-label{left:1.5rem;right:1.5rem}
+    .proj-hud-title{font-size:clamp(1.1rem,4vw,1.6rem)}
+    .proj-counter{display:none}
+
+    /* Experience */
+    .exp-item{grid-template-columns:1fr;gap:.5rem}
+    .exp-date{padding-top:0}
+
+    /* Hackathons */
+    .hack-grid{grid-template-columns:1fr}
+
+    /* Certs */
+    .cert-list{grid-template-columns:1fr}
+
+    /* Contact */
+    #contact{padding:6rem 1.5rem}
+    .contact-big{font-size:clamp(2rem,10vw,4rem)}
+    .contact-links{gap:1.5rem}
+
+    /* Footer */
+    footer{flex-direction:column;gap:.75rem;text-align:center;padding:1.5rem}
+  }
+
+  @media(max-width:480px){
+    .hero-label{font-size:10px}
+    .stats-grid{grid-template-columns:1fr 1fr}
+    .stat-num{font-size:2rem}
+    .contact-links{flex-direction:column;align-items:center;gap:1rem}
+  }
+</style>
 </head>
 <body>
 
-<!-- Navigation -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<div id="scroll-progress"></div>
+
 <nav>
-    <div class="logo">Saqib Ahmed K</div>
-    <div class="hamburger" id="hamburger">☰</div>
-    <ul id="nav-links">
-        <button class="theme-toggle" id="theme-toggle">🌙 Dark</button>
-        <li><a href="#about">About</a></li>
-        <li><a href="#reports">Reports</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#extracurricular">Extracurricular</a></li>
-        <li><a href="#experience">Experience</a></li>
-        <li><a href="#contact">Contact</a></li>
-    </ul>
+  <a href="#hero" class="nav-logo">SAK · Portfolio</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects-scroll">Work</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
 </nav>
 
-<!-- Hero Section -->
-<header>
-    <div class="hero-text">
-        <h1>Hi, I'm Saqib Ahmed K</h1>
-        <p class="typewriter"><span id="typing"></span></p>
-        <p class="subtitle">AI & Software Development Enthusiast</p>
-        <div class="social-links">
-            <a href="https://github.com/SaqibAK001" target="_blank">GitHub</a>
-            <a href="https://www.linkedin.com/in/saqib-ahmed-k-80b055296/" target="_blank">LinkedIn</a>
-            <a href="resume.pdf" target="_blank">Resume</a>
-        </div>
+<!-- Mobile overlay menu -->
+<div class="nav-overlay" id="nav-overlay" aria-hidden="true">
+  <ul class="nav-links">
+    <li><a href="#about"          class="nav-overlay-link">About</a></li>
+    <li><a href="#skills"         class="nav-overlay-link">Skills</a></li>
+    <li><a href="#projects-scroll" class="nav-overlay-link">Projects</a></li>
+    <li><a href="#experience"     class="nav-overlay-link">Experience</a></li>
+    <li><a href="#hackathons"     class="nav-overlay-link">Hackathons</a></li>
+    <li><a href="#certifications" class="nav-overlay-link">Certifications</a></li>
+    <li><a href="#contact"        class="nav-overlay-link">Contact</a></li>
+  </ul>
+</div>
+
+<!-- ═══ HERO ═══════════════════════════════════════════════════════════════ -->
+<section id="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-content">
+    <div class="terminal-line">
+      <span class="prompt">$</span> whoami<span class="blink"></span>
     </div>
-</header>
-
-<!-- About Section -->
-<section id="about" class="fade-in">
-    <h2>About Me</h2>
-    <p>I’m a third-year Computer Science Engineering student at REVA University who enjoys building practical, real-world software solutions. I have hands-on experience with full-stack web development, database-driven applications, and AI-based projects, and I enjoy turning ideas into clean, working systems.
-<br><br>
-I’ve worked with Python, C++, Flask, MySQL, HTML, CSS, and JavaScript, and I actively participate in technical clubs, hackathons, and project-based learning. I value problem-solving, clean code, and collaboration.
-<br><br>
-Currently seeking an internship or entry-level role where I can learn fast, contribute meaningfully, and work on impactful projects.</p>
+    <p class="hero-label">Software Engineer · AI/ML Developer · Bangalore, India</p>
+    <h1 class="hero-name">
+      <span class="first">Saqib</span>
+      <span class="last">Ahmed K</span>
+    </h1>
+    <div class="hero-bottom">
+      <div class="hero-desc">
+        Third-year CS Engineering student with hands-on experience across <strong>AI/ML</strong>, <strong>full-stack development</strong>, data engineering, and business intelligence. Finalist in 4 national &amp; international hackathons.
+      </div>
+      <div class="hero-tags">
+        <span class="hero-tag">LangChain / RAG</span>
+        <span class="hero-tag">FastAPI · MongoDB · React</span>
+        <span class="hero-tag">PySpark · AWS</span>
+        <span class="hero-tag">Power BI · DQN</span>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
 </section>
 
-<!-- Reports Section -->
-<section id="reports" class="fade-in">
-    <h2>Reports</h2>
-    <div class="reports-container" id="reports-container"></div>
+<!-- ═══ ABOUT ══════════════════════════════════════════════════════════════ -->
+<section id="about" class="std-section">
+  <div class="section-label reveal">About</div>
+  <h2 class="section-title reveal">Building at the<br>intersection of<br>code &amp; intelligence.</h2>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>I'm a <strong>third-year Computer Science Engineering student</strong> at REVA University, Bangalore, with a track record of shipping real, end-to-end systems — not just side projects.</p>
+      <p>From LLM-powered document analysis to real-time distributed traffic pipelines and full-stack logistics platforms, I build things that work at scale and hold up under pressure.</p>
+      <p>I'm the <strong>Vice President &amp; Tech Lead</strong> of FACE Club (150+ members) and have interned coordinating AI programs for 100+ working professionals.</p>
+    </div>
+    <div class="stats-grid reveal">
+      <div class="stat-item"><div class="stat-num">8+</div><div class="stat-label">End-to-end Projects</div></div>
+      <div class="stat-item"><div class="stat-num">4×</div><div class="stat-label">Hackathon Finalist</div></div>
+      <div class="stat-item"><div class="stat-num">12+</div><div class="stat-label">Certifications</div></div>
+      <div class="stat-item"><div class="stat-num">150+</div><div class="stat-label">Club Members Led</div></div>
+    </div>
+  </div>
 </section>
 
-<!-- Projects Section -->
-<section id="projects" class="fade-in">
-    <h2>Projects</h2>
-    <div class="projects-container" id="projects-container"></div>
+<!-- ═══ SKILLS ═════════════════════════════════════════════════════════════ -->
+<section id="skills" class="std-section">
+  <div class="section-label reveal">Capabilities</div>
+  <h2 class="section-title reveal">Tech Stack</h2>
+  <div class="skills-grid">
+    <div class="skill-group reveal"><div class="skill-group-label">Languages</div><div class="skill-tags"><span class="skill-tag">Python</span><span class="skill-tag">JavaScript</span><span class="skill-tag">Java</span><span class="skill-tag">C++</span></div></div>
+    <div class="skill-group reveal"><div class="skill-group-label">AI / ML</div><div class="skill-tags"><span class="skill-tag">LangChain</span><span class="skill-tag">RAG Pipelines</span><span class="skill-tag">Scikit-learn</span><span class="skill-tag">Pandas</span><span class="skill-tag">DQN</span><span class="skill-tag">OpenCV</span><span class="skill-tag">NumPy</span><span class="skill-tag">Random Forest</span></div></div>
+    <div class="skill-group reveal"><div class="skill-group-label">Full-Stack</div><div class="skill-tags"><span class="skill-tag">FastAPI</span><span class="skill-tag">Flask</span><span class="skill-tag">React.js</span><span class="skill-tag">Vite</span><span class="skill-tag">Tailwind CSS</span><span class="skill-tag">JWT / OAuth2</span><span class="skill-tag">REST APIs</span></div></div>
+    <div class="skill-group reveal"><div class="skill-group-label">Data Engineering</div><div class="skill-tags"><span class="skill-tag">PySpark</span><span class="skill-tag">Streaming</span><span class="skill-tag">Distributed</span><span class="skill-tag">Power BI</span><span class="skill-tag">DAX</span><span class="skill-tag">Excel</span></div></div>
+    <div class="skill-group reveal"><div class="skill-group-label">Databases</div><div class="skill-tags"><span class="skill-tag">MongoDB</span><span class="skill-tag">MySQL</span><span class="skill-tag">PostgreSQL</span><span class="skill-tag">MariaDB</span></div></div>
+    <div class="skill-group reveal"><div class="skill-group-label">DevOps &amp; Tools</div><div class="skill-tags"><span class="skill-tag">AWS</span><span class="skill-tag">Git / GitHub</span><span class="skill-tag">Linux / Ubuntu</span><span class="skill-tag">Docker</span><span class="skill-tag">n8n</span><span class="skill-tag">Jupyter</span></div></div>
+  </div>
 </section>
 
-<!-- Extracurricular Section -->
-<section id="extracurricular" class="fade-in">
-    <h2>Extracurricular</h2>
-    <div class="extracurricular-container" id="extracurricular-container"></div>
-</section>
+<!-- ═══ PROJECTS — sticky 3D carousel ═════════════════════════════════════ -->
+<!--
+  Scroll mechanic (replicating Active Theory):
+  • #projects-scroll is tall (100vh × numProjects + 1 padding screens)
+  • #projects-sticky is position:sticky, always filling the viewport
+  • Scroll progress inside the tall container drives the 3D scene:
+    – card index / blend between cards
+    – spine Y-rotation
+    – sparkle counter
+-->
+<div id="projects-scroll">
+  <div id="projects-sticky">
+    <canvas id="projects-canvas"></canvas>
 
-<!-- Experience Section -->
-<section id="experience" class="fade-in">
-    <h2>Experience</h2>
-    <div class="experience-card">
-        <h3>Vice President – FACE Technical Team</h3>
-        <p>September 2025 – Present</p>
-        <h3>Coordinator – FACE Technical Team</h3>
-        <p>September 2024 – September 2025</p>
-        <ul>
-            <li>Organized technical events and workshops for university students.</li>
-            <li>Managed communications and coordinated with other college clubs.</li>
-            <li>Lead a team of 15 throughout the year</li>
-            <li>Mentored juniors in web development and programming skills.</li>
-        </ul>
+    <!-- HUD: left panel — current project info -->
+    <div class="proj-hud-label">
+      <div class="section-label">Selected Work</div>
+      <div class="proj-hud-type"  id="hud-type">AI / ML</div>
+      <div class="proj-hud-title" id="hud-title">EDITH — RAG AI Q&amp;A</div>
+      <div class="proj-hud-stack" id="hud-stack">
+        <span>Python</span><span>Flask</span><span>LangChain</span>
+      </div>
+      <a class="proj-github-btn" id="hud-github" href="https://github.com/SaqibAK001/EDITH" target="_blank" rel="noopener">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+        View on GitHub
+      </a>
     </div>
 
-    <div class="experience-card">
-        <h3>Junior Intern - REVA Academy for Corporate Excellence (RACE)</h3>
-        <p>May 24, 2025 – September 20, 2025</p>
-        <ul>
-            <li>Coordinate and support delivery of AI programs for working professionals.</li>
-            <li>Maintain and update LMS by uploading learning materials and session recordings.</li>
-            <li>Troubleshoot participant queries and track performance metrics.</li>
-            <li>Collaborate with industry mentors for assessment design and grading.</li>
-            <li>Contribute to content development and promotion of events and webinars.</li>
-        </ul>
+    <!-- HUD: right panel — index counter -->
+    <div class="proj-counter">
+      <div class="proj-counter-num"   id="ctr-num">01</div>
+      <div class="proj-counter-total" id="ctr-total">/ 06</div>
     </div>
+
+    <!-- Bottom scroll cue (fades out after first card) -->
+    <div class="proj-scroll-cue" id="proj-cue">
+      <span>Scroll</span>
+      <div class="proj-scroll-cue-line"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ EXPERIENCE ════════════════════════════════════════════════════════ -->
+<section id="experience" class="std-section">
+  <div class="section-label reveal">Career</div>
+  <h2 class="section-title reveal">Experience</h2>
+  <div class="exp-item reveal">
+    <div><div class="exp-date">May 2025 — Sep 2025</div></div>
+    <div><div class="exp-role">Junior Intern</div><div class="exp-company">REVA Academy for Corporate Excellence (RACE) · Bangalore</div>
+      <ul class="exp-points">
+        <li>Coordinated AI/ML training programs for 100+ working professionals across multiple cohorts.</li>
+        <li>Analyzed LMS engagement metrics — tracked completion rates, assessment scores, and KPIs; prepared weekly/monthly performance reports.</li>
+        <li>Managed platform operations including content uploads, session recordings, and user access on Linux.</li>
+        <li>Ensured data accuracy across training records; assisted in AI curriculum development.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="exp-item reveal">
+    <div><div class="exp-date">2024 — Present</div></div>
+    <div><div class="exp-role">Vice President &amp; Tech Lead</div><div class="exp-company">FACE Club · REVA University</div>
+      <ul class="exp-points">
+        <li>Lead technical initiatives for a 150+ member CS club; organized coding competitions, tech talks, AI/ML workshops, and open-source events.</li>
+        <li>Mentored junior members on software development, data analysis, algorithms, and project building.</li>
+        <li>Coordinated cross-functional teams for inter-university hackathons and technical competitions.</li>
+      </ul>
+    </div>
+  </div>
 </section>
 
-<!-- Contact Section -->
-<section id="contact" class="fade-in">
-    <h2>Contact</h2>
-    <p>Email: saqibak045@gmail.com</p>
-    <p>Phone: +91 8660679775</p>
-    <p>Location: Bangalore, India</p>
+<!-- ═══ HACKATHONS ════════════════════════════════════════════════════════ -->
+<section id="hackathons" class="std-section">
+  <div class="section-label reveal">Competitions</div>
+  <h2 class="section-title reveal">Hackathons &amp;<br>Awards</h2>
+  <div class="hack-grid">
+    <div class="hack-item reveal"><div class="hack-badge">Finalist</div><div class="hack-name">AI for Bharat 2026</div><p class="hack-desc">Built and deployed an AI application on AWS for a national challenge focused on real-world Indian use cases.</p></div>
+    <div class="hack-item reveal"><div class="hack-badge">Top 15 Internationally</div><div class="hack-name">FOSS FEST 2025</div><p class="hack-desc">Developed an open-source solution on Ubuntu Linux using Odoo ERP. Ranked in the top 15 globally.</p></div>
+    <div class="hack-item reveal"><div class="hack-badge">Finalist</div><div class="hack-name">OIH by DEEP Funding 2025</div><p class="hack-desc">Built Reality Check — an AI-powered misinformation and deepfake detection system deployed as a group chat bot.</p></div>
+    <div class="hack-item reveal"><div class="hack-badge">Internal Rounds Cleared</div><div class="hack-name">Smart India Hackathon 2025</div><p class="hack-desc">India's largest government-backed student hackathon. Successfully cleared internal selection rounds.</p></div>
+    <div class="hack-item reveal"><div class="hack-badge">Finalist</div><div class="hack-name">Code Crusade 2025</div><p class="hack-desc">Inter-department coding competition at REVA University. Reached the finals.</p></div>
+  </div>
 </section>
 
-<script src="script.js"></script>
+<!-- ═══ CERTIFICATIONS ════════════════════════════════════════════════════ -->
+<section id="certifications" class="std-section">
+  <div class="section-label reveal">Credentials</div>
+  <h2 class="section-title reveal">Certifications &amp;<br>Publications</h2>
+  <div class="cert-list">
+    <div class="cert-item reveal"><div class="cert-dot"></div><div><div class="cert-name">IBM Spark Fundamentals I &amp; II</div><div class="cert-issuer">IBM · Jan–Feb 2026 · Apache Spark, Big Data Analytics</div></div></div>
+    <div class="cert-item reveal"><div class="cert-dot"></div><div><div class="cert-name">IBM Introduction to Generative AI</div><div class="cert-issuer">IBM · Oct 2025 · Credential ID MDL-388</div></div></div>
+    <div class="cert-item reveal"><div class="cert-dot"></div><div><div class="cert-name">IBM What is Prompt Tuning?</div><div class="cert-issuer">IBM · Oct 2025 · Credential ID MDL-342</div></div></div>
+    <div class="cert-item reveal"><div class="cert-dot"></div><div><div class="cert-name">IBM Enterprise Data Science</div><div class="cert-issuer">IBM · Dec 2023 · Data Analysis &amp; Engineering</div></div></div>
+    <div class="cert-item reveal"><div class="cert-dot"></div><div><div class="cert-name">OpenCV Free Bootcamp</div><div class="cert-issuer">OpenCV · Apr 2026 · Computer Vision &amp; Deep Learning</div></div></div>
+    <div class="cert-item reveal"><div class="cert-dot"></div><div><div class="cert-name">Supervised &amp; Unsupervised ML</div><div class="cert-issuer">Simplilearn · Feb 2026</div></div></div>
+    <div class="cert-item reveal" style="border-color:rgba(0,255,255,.12)"><div class="cert-dot"></div><div><div class="cert-name">Publication: Blood Work Analysis &amp; Disease Prediction</div><div class="cert-issuer">Random Forest Classifier · Research</div></div></div>
+    <div class="cert-item reveal" style="border-color:rgba(0,255,255,.12)"><div class="cert-dot"></div><div><div class="cert-name">Publication: Adaptive Pathfinding on Hexagonal Grids</div><div class="cert-issuer">Hybrid A* Algorithm · Research</div></div></div>
+  </div>
+</section>
+
+<!-- ═══ CONTACT ═══════════════════════════════════════════════════════════ -->
+<section id="contact">
+  <div class="section-label reveal" style="justify-content:center">Get in Touch</div>
+  <h2 class="contact-big reveal">Let's build<br><span class="outline">something real.</span></h2>
+  <div class="reveal"><a href="mailto:saqibak045@gmail.com" class="contact-email">saqibak045@gmail.com</a></div>
+  <div class="contact-links reveal">
+    <a href="https://github.com" target="_blank" class="contact-link">GitHub</a>
+    <a href="https://linkedin.com" target="_blank" class="contact-link">LinkedIn</a>
+    <a href="resume.pdf" target="_blank" class="contact-link">Resume</a>
+    <a href="tel:+918660679775" class="contact-link">+91 86606 79775</a>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Saqib Ahmed K · Bangalore, India</p>
+  <p>B.Tech CSE · REVA University · Expected 2027</p>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<script type="module">
+import * as THREE from 'three';
+
+// ─── Project data ──────────────────────────────────────────────────────────
+const PROJECTS = [
+  { title:'EDITH — RAG AI Document Q&A',        type:'AI / ML',              stack:['Python','Flask','LangChain','RAG'],           color:'#00ffff', accent:'#00ddff', github:'https://github.com/SaqibAK001/EDITH' },
+  { title:'Traffic Management Classifier',       type:'Data Engineering',     stack:['PySpark','Distributed','Linux'],              color:'#9ca5ff', accent:'#6677ff', github:'https://github.com/SaqibAK001/traffic-management' },
+  { title:'Transport Logistics Platform',        type:'Full-Stack SDE',       stack:['FastAPI','MongoDB','React.js','JWT'],         color:'#00ffaa', accent:'#00cc88', github:'https://github.com/SaqibAK001/transport-logistics' },
+  { title:'Adaptive Pathfinding Visualizer',     type:'Algorithms / SDE',     stack:['React.js','JavaScript','DQN','A*'],           color:'#ffaa00', accent:'#ff8800', github:'https://github.com/SaqibAK001/adaptive-pathfinding' },
+  { title:'Reality Check — Deepfake Detector',   type:'AI Automation / MLOps',stack:['Python','n8n','REST APIs'],                  color:'#ff6688', accent:'#cc4466', github:'https://github.com/SaqibAK001/reality-check' },
+  { title:'Bank Marketing Dashboard',            type:'Data Analytics / BI',  stack:['Power BI','DAX','Data Modeling'],            color:'#aaffdd', accent:'#66ccaa', github:'https://github.com/SaqibAK001/bi_dashboards/tree/main/Demand%20Forecasting' },
+];
+const N = PROJECTS.length;
+
+// ─── Seeded RNG ─────────────────────────────────────────────────────────────
+function seededRand(seed) {
+  let s = seed;
+  return () => { s = (s * 1664525 + 1013904223) & 0xffffffff; return (s >>> 0) / 0xffffffff; };
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// HERO — flowing spline particle cloud
+// ═══════════════════════════════════════════════════════════════════════════
+(function heroScene() {
+  const canvas   = document.getElementById('hero-canvas');
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:true });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.setClearColor(0x000000, 1);
+
+  const scene  = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 500);
+  camera.position.set(0, 0, 28);
+
+  function resize() {
+    const w = canvas.parentElement.clientWidth, h = canvas.parentElement.clientHeight;
+    renderer.setSize(w, h); camera.aspect = w / h; camera.updateProjectionMatrix();
+  }
+  resize(); window.addEventListener('resize', resize);
+
+  // Build splines
+  const SPLINE_N = 18, PTS = 24;
+  const rng = seededRand(42);
+  function makeSpline(idx) {
+    const pts = [], r = rng, da = idx % 3;
+    const ox = (r()-.5)*20, oy = (r()-.5)*12, oz = (r()-.5)*8;
+    const sc = 4+r()*10, tw = (r()-.5)*4, fr = 0.5+r()*2;
+    for (let i=0;i<PTS;i++) {
+      const t = i/(PTS-1), angle = t*Math.PI*2*fr + idx*.4;
+      let x,y,z;
+      if(da===0){ x=(t-.5)*sc*2.5+ox; y=Math.sin(angle)*(2+r()*2)+Math.cos(angle*.7)*1.5+oy; z=Math.cos(angle*1.3)*(1.5+r()*2)+tw*t+oz; }
+      else if(da===1){ x=Math.sin(angle)*(2+r()*2)+Math.cos(angle*.7)*1.5+ox; y=(t-.5)*sc*2+oy; z=Math.cos(angle*1.3)*(1.5+r()*2)+tw*t+oz; }
+      else { x=Math.sin(angle*.8)*(2+r()*3)+ox; y=Math.cos(angle*1.1)*(2+r()*2)+oy; z=(t-.5)*sc*2+oz; }
+      pts.push(new THREE.Vector3(x,y,z));
+    }
+    return new THREE.CatmullRomCurve3(pts, false, 'catmullrom', 0.5);
+  }
+  const splines = Array.from({length:SPLINE_N}, (_,i)=>makeSpline(i));
+
+  // Line backbones
+  const lineMat = new THREE.LineBasicMaterial({ color:0x003333, transparent:true, opacity:.12, blending:THREE.AdditiveBlending, depthWrite:false });
+  splines.forEach(s => { const g=new THREE.BufferGeometry().setFromPoints(s.getPoints(200)); scene.add(new THREE.Line(g,lineMat)); });
+
+  // Particles
+  const PPL=120, TOTAL=SPLINE_N*PPL;
+  const pSpl=new Int32Array(TOTAL), pT=new Float32Array(TOTAL), pSp=new Float32Array(TOTAL);
+  const pSz=new Float32Array(TOTAL), pCI=new Uint8Array(TOTAL);
+  const palette=[0x00ffff,0x00ddff,0x80ffff,0xffffff,0xaaccff,0x9ca5ff,0x6688ff,0x00ffaa].map(c=>new THREE.Color(c));
+  const rng2=seededRand(99);
+  for(let i=0;i<TOTAL;i++){ pSpl[i]=Math.floor(i/PPL); pT[i]=rng2(); pSp[i]=.0005+rng2()*.0012; pSz[i]=.5+rng2()*2.5; pCI[i]=Math.floor(rng2()*palette.length); }
+
+  const pos=new Float32Array(TOTAL*3), col=new Float32Array(TOTAL*3), sz=new Float32Array(TOTAL);
+  const geo=new THREE.BufferGeometry();
+  geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+  geo.setAttribute('aColor',  new THREE.BufferAttribute(col,3));
+  geo.setAttribute('aSize',   new THREE.BufferAttribute(sz,1));
+
+  const mat=new THREE.ShaderMaterial({
+    vertexShader:`attribute float aSize;attribute vec3 aColor;varying vec3 vC;varying float vA;void main(){vC=aColor;vec4 mv=modelViewMatrix*vec4(position,1.);vA=clamp(1.-(-mv.z-5.)/40.,0.,1.);gl_PointSize=aSize*(300./-mv.z);gl_Position=projectionMatrix*mv;}`,
+    fragmentShader:`varying vec3 vC;varying float vA;void main(){vec2 u=gl_PointCoord-.5;float r=length(u);if(r>.5)discard;float c=1.-smoothstep(0.,.15,r);float g=1.-smoothstep(.1,.5,r);gl_FragColor=vec4(vC+c*vec3(.4,.5,.5),(c*.9+g*.5)*vA);}`,
+    transparent:true, depthWrite:false, blending:THREE.AdditiveBlending
+  });
+  const trPos=new Float32Array(TOTAL*3), trCol=new Float32Array(TOTAL*3), trSz=new Float32Array(TOTAL);
+  const trGeo=new THREE.BufferGeometry();
+  trGeo.setAttribute('position',new THREE.BufferAttribute(trPos,3));
+  trGeo.setAttribute('aColor',  new THREE.BufferAttribute(trCol,3));
+  trGeo.setAttribute('aSize',   new THREE.BufferAttribute(trSz,1));
+  const trMat=new THREE.ShaderMaterial({
+    vertexShader:`attribute float aSize;attribute vec3 aColor;varying vec3 vC;void main(){vC=aColor;vec4 mv=modelViewMatrix*vec4(position,1.);gl_PointSize=aSize*(500./-mv.z);gl_Position=projectionMatrix*mv;}`,
+    fragmentShader:`varying vec3 vC;void main(){vec2 u=gl_PointCoord-.5;float r=length(u);if(r>.5)discard;float g=1.-smoothstep(0.,.5,r);gl_FragColor=vec4(vC*.4,g*g*.25);}`,
+    transparent:true, depthWrite:false, blending:THREE.AdditiveBlending
+  });
+  scene.add(new THREE.Points(geo,mat));
+  scene.add(new THREE.Points(trGeo,trMat));
+
+  let mx=0,my=0,tcx=0,tcy=0,drift=0;
+  document.addEventListener('mousemove',e=>{ mx=(e.clientX/innerWidth-.5)*2; my=(e.clientY/innerHeight-.5)*2; });
+  const tv=new THREE.Vector3();
+  let prev=0;
+  function frame(now){
+    requestAnimationFrame(frame);
+    const dt=Math.min((now-prev)/16.67,3); prev=now; drift+=.00015*dt;
+    for(let i=0;i<TOTAL;i++){
+      pT[i]+=pSp[i]*dt; if(pT[i]>1)pT[i]-=1;
+      splines[pSpl[i]].getPoint(pT[i],tv);
+      const b=i*3; pos[b]=tv.x; pos[b+1]=tv.y; pos[b+2]=tv.z;
+      splines[pSpl[i]].getPoint(Math.max(0,pT[i]-pSp[i]*20),tv);
+      trPos[b]=tv.x; trPos[b+1]=tv.y; trPos[b+2]=tv.z;
+      const t=now*.001, p=.7+.3*Math.sin(t*2+i*.05), c=palette[pCI[i]];
+      col[b]=c.r*p; col[b+1]=c.g*p; col[b+2]=c.b*p;
+      trCol[b]=c.r*.3; trCol[b+1]=c.g*.3; trCol[b+2]=c.b*.3;
+      sz[i]=pSz[i]*(.8+.3*Math.sin(t*1.5+i*.1)); trSz[i]=pSz[i]*3;
+    }
+    geo.attributes.position.needsUpdate=true; geo.attributes.aColor.needsUpdate=true; geo.attributes.aSize.needsUpdate=true;
+    trGeo.attributes.position.needsUpdate=true; trGeo.attributes.aColor.needsUpdate=true; trGeo.attributes.aSize.needsUpdate=true;
+    tcx+=(mx*3-tcx)*.02*dt; tcy+=(-my*2-tcy)*.02*dt;
+    camera.position.x=tcx+Math.sin(drift*.7)*1.5; camera.position.y=tcy+Math.sin(drift*.5);
+    camera.position.z=28+Math.sin(drift)*3; camera.lookAt(Math.sin(drift*.3)*.5,Math.sin(drift*.2)*.3,0);
+    renderer.render(scene,camera);
+  }
+  frame(0);
+})();
+
+// ═══════════════════════════════════════════════════════════════════════════
+// PROJECTS — 3D CARD CAROUSEL + FLOWER SPINE
+//
+// Layout (matching Active Theory work page):
+//   • Central axis = flower/spine particle helix, always in view
+//   • 6 cards arranged on a cylinder around the spine
+//   • On scroll, the cylinder rotates: each card sweeps to front-facing pos
+//   • Front card = fully opaque, large; others = dim, receding
+//   • HUD text updates to show current project info
+// ═══════════════════════════════════════════════════════════════════════════
+(function projectsScene() {
+  const sticky  = document.getElementById('projects-sticky');
+  const scroll  = document.getElementById('projects-scroll');
+  const canvas  = document.getElementById('projects-canvas');
+  const hudType  = document.getElementById('hud-type');
+  const hudTitle = document.getElementById('hud-title');
+  const hudStack = document.getElementById('hud-stack');
+  const ctrNum   = document.getElementById('ctr-num');
+  const hudGithub= document.getElementById('hud-github');
+  const cue     = document.getElementById('proj-cue');
+
+  // Make the scroll container tall: (N-1) screens of scrolling + 1 screen padding
+  scroll.style.height = (N + 1) * 100 + 'vh';
+
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:true });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.setClearColor(0x000000, 1);
+  renderer.shadowMap.enabled = false;
+
+  const scene  = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 200);
+  camera.position.set(0, 0, 14);
+
+  function resize() {
+    const w = sticky.clientWidth, h = sticky.clientHeight;
+    renderer.setSize(w, h); camera.aspect = w/h; camera.updateProjectionMatrix();
+  }
+  resize(); window.addEventListener('resize', resize);
+
+  // ── SPINE — 40 stacked vertebra rings (Active Theory SpineInstancer exact)
+  //
+  // Source: SpineInstancer loops i=0..39:
+  //   mesh.position.y = -0.65 * i + 4   ← stacked downward, starts at top
+  //   mesh.rotation.y = 0.4  * i         ← each bone rotates 0.4 rad more
+  //
+  // Each "bone" = a flat ring (RingGeometry) — thin inner radius, wider outer —
+  // with an asymmetric cross-arm cut out to look like a vertebra.
+  // We use a custom Shape geometry to match AT's actual look.
+  // ─────────────────────────────────────────────────────────────────────────
+
+  const BONE_COUNT = 40;
+  const BONE_Y_STEP = -0.65;   // exact from AT source
+  const BONE_Y_START = 4.0;    // exact from AT source
+  const BONE_ROT_STEP = 0.4;   // exact from AT source (radians)
+
+  // Build one vertebra shape: a flat cross with a hollow centre, like a spine bone
+  // Outer radius ~0.7, inner hole ~0.15, two arms extending outward
+  function makeVertebra() {
+    const shape = new THREE.Shape();
+    const R = 0.62;   // half-width of main body
+    const r = 0.14;   // inner hole radius
+    const armW = 0.10; // arm half-width
+    const armL = 0.90; // arm tip from centre
+
+    // Outer octagon-ish body
+    shape.moveTo( R,  armW);
+    shape.lineTo( armL,  armW);
+    shape.lineTo( armL, -armW);
+    shape.lineTo( R, -armW);
+    shape.lineTo( R, -R);
+    shape.lineTo( armW, -R);
+    shape.lineTo( armW, -armL);
+    shape.lineTo(-armW, -armL);
+    shape.lineTo(-armW, -R);
+    shape.lineTo(-R, -R);
+    shape.lineTo(-R, -armW);
+    shape.lineTo(-armL, -armW);
+    shape.lineTo(-armL,  armW);
+    shape.lineTo(-R,  armW);
+    shape.lineTo(-R,  R);
+    shape.lineTo(-armW,  R);
+    shape.lineTo(-armW,  armL);
+    shape.lineTo( armW,  armL);
+    shape.lineTo( armW,  R);
+    shape.lineTo( R,  R);
+    shape.closePath();
+
+    // Punch out centre hole
+    const hole = new THREE.Path();
+    for (let a = 0; a <= 32; a++) {
+      const ang = (a / 32) * Math.PI * 2;
+      a === 0 ? hole.moveTo(Math.cos(ang)*r, Math.sin(ang)*r)
+              : hole.lineTo(Math.cos(ang)*r, Math.sin(ang)*r);
+    }
+    hole.closePath();
+    shape.holes.push(hole);
+
+    return new THREE.ShapeGeometry(shape, 4);
+  }
+
+  const boneGeo = makeVertebra();
+
+  // Shared material — cyan with slight emissive shimmer, additive so it glows
+  const boneMat = new THREE.MeshBasicMaterial({
+    color: new THREE.Color(0x00cccc),
+    transparent: true,
+    opacity: 0.55,
+    side: THREE.DoubleSide,
+  });
+  // Slightly brighter edge outline via a second wireframe pass
+  const boneWireMat = new THREE.MeshBasicMaterial({
+    color: new THREE.Color(0x00ffff),
+    transparent: true,
+    opacity: 0.9,
+    wireframe: true,
+  });
+
+  // Centre rod — thin cylinder running the full length of the spine
+  const rodGeo = new THREE.CylinderGeometry(0.025, 0.025, BONE_COUNT * Math.abs(BONE_Y_STEP) + 1, 8);
+  const rodMat = new THREE.MeshBasicMaterial({
+    color: 0x00ffff, transparent: true, opacity: 0.35,
+  });
+  const rod = new THREE.Mesh(rodGeo, rodMat);
+  rod.position.y = BONE_Y_START + (BONE_COUNT * BONE_Y_STEP) / 2;
+
+  // Subtle ambient glow tube (slightly larger, fully transparent → additive)
+  const glowRodGeo = new THREE.CylinderGeometry(0.07, 0.07, BONE_COUNT * Math.abs(BONE_Y_STEP) + 1, 8);
+  const glowRodMat = new THREE.MeshBasicMaterial({
+    color: 0x003333, transparent: true, opacity: 0.18,
+    blending: THREE.AdditiveBlending, depthWrite: false,
+  });
+  const glowRod = new THREE.Mesh(glowRodGeo, glowRodMat);
+  glowRod.position.copy(rod.position);
+
+  const spineGroup = new THREE.Group();
+  spineGroup.add(rod);
+  spineGroup.add(glowRod);
+
+  // Store bones for sparkle animation
+  const bones = [];
+  for (let i = 0; i < BONE_COUNT; i++) {
+    const boneGroup = new THREE.Group();
+    boneGroup.add(new THREE.Mesh(boneGeo, boneMat.clone())); // clone so each can vary opacity
+    boneGroup.add(new THREE.Mesh(boneGeo, boneWireMat.clone()));
+    boneGroup.position.y = BONE_Y_START + BONE_Y_STEP * i;
+    boneGroup.rotation.y = BONE_ROT_STEP * i;
+    spineGroup.add(boneGroup);
+    bones.push(boneGroup);
+  }
+
+  spineGroup.position.set(2.5, 0, 0);
+  scene.add(spineGroup);
+
+  // Sparkle: per-bone brightness pulse — AT's uSparkle drives shimmer
+  let spineSparkleT = 0;
+  function updateSpineSparkle(t) {
+    spineSparkleT = t;
+    bones.forEach((b, i) => {
+      // Each bone pulses at slightly different phase — creates travelling wave down spine
+      const wave = 0.45 + 0.55 * Math.abs(Math.sin(t * 3.14 + i * 0.22));
+      b.children[0].material.opacity = 0.3 + wave * 0.45;  // fill
+      b.children[1].material.opacity = 0.55 + wave * 0.45; // wire
+    });
+  }
+
+  // ── PROJECT CARDS ──────────────────────────────────────────────────────
+  // Each card is a RoundedRect mesh with a canvas texture label,
+  // arranged on a cylinder of radius R around the spine.
+  // Cylinder axis = Y. Cards face outward (toward camera when front).
+  const CARD_RADIUS = 5.5;   // orbit radius from spine axis
+  const CARD_W = 4.8, CARD_H = 3.0;
+
+  // Procedural canvas texture for each card
+  function makeCardTexture(proj) {
+    const cw=512, ch=320, cv=document.createElement('canvas');
+    cv.width=cw; cv.height=ch;
+    const ctx=cv.getContext('2d');
+    // Background
+    ctx.fillStyle='#040810'; ctx.fillRect(0,0,cw,ch);
+    // Top accent bar
+    const grad=ctx.createLinearGradient(0,0,cw,0);
+    grad.addColorStop(0,proj.color+'99'); grad.addColorStop(1,'transparent');
+    ctx.fillStyle=grad; ctx.fillRect(0,0,cw,4);
+    // Border
+    ctx.strokeStyle=proj.color+'44'; ctx.lineWidth=1; ctx.strokeRect(.5,.5,cw-1,ch-1);
+    // Type label
+    ctx.font='bold 13px monospace'; ctx.fillStyle=proj.color+'cc';
+    ctx.fillText(proj.type.toUpperCase(), 28, 42);
+    // Title
+    ctx.font='bold 28px monospace'; ctx.fillStyle='#f4f4f4';
+    const words=proj.title.split(' ');
+    let line='', y=90;
+    for(const w of words){ const test=line+w+' ';
+      if(ctx.measureText(test).width>cw-56 && line){ ctx.fillText(line.trim(),28,y); line=w+' '; y+=36; }
+      else line=test;
+    }
+    ctx.fillText(line.trim(),28,y);
+    // Stack pills
+    let px=28; const py=y+52;
+    ctx.font='11px monospace';
+    for(const tag of proj.stack){
+      const tw=ctx.measureText(tag).width+20;
+      ctx.strokeStyle=proj.color+'55'; ctx.lineWidth=1;
+      ctx.strokeRect(px,py-16,tw,22);
+      ctx.fillStyle=proj.color+'aa'; ctx.fillText(tag,px+10,py+1);
+      px+=tw+10; if(px>cw-80)break;
+    }
+    // Subtle grid overlay
+    ctx.strokeStyle='rgba(0,255,255,0.04)'; ctx.lineWidth=1;
+    for(let gx=0;gx<cw;gx+=40){ ctx.beginPath(); ctx.moveTo(gx,0); ctx.lineTo(gx,ch); ctx.stroke(); }
+    for(let gy=0;gy<ch;gy+=40){ ctx.beginPath(); ctx.moveTo(0,gy); ctx.lineTo(cw,gy); ctx.stroke(); }
+    return new THREE.CanvasTexture(cv);
+  }
+
+  // Build card meshes — simple PlaneGeometry
+  const cards = PROJECTS.map((proj, idx) => {
+    const geo  = new THREE.PlaneGeometry(CARD_W, CARD_H);
+    const tex  = makeCardTexture(proj);
+    const mat  = new THREE.MeshBasicMaterial({ map:tex, transparent:true, opacity:1, side:THREE.FrontSide });
+    const mesh = new THREE.Mesh(geo, mat);
+
+    // Edge glow: thin plane slightly behind card
+    const edgeGeo = new THREE.PlaneGeometry(CARD_W+.12, CARD_H+.12);
+    const edgeMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(proj.color), transparent:true, opacity:.0, blending:THREE.AdditiveBlending, depthWrite:false, side:THREE.FrontSide });
+    const edgeMesh= new THREE.Mesh(edgeGeo, edgeMat);
+    edgeMesh.position.z = -.03;
+
+    const group = new THREE.Group();
+    group.add(mesh); group.add(edgeMesh);
+    group._edgeMat = edgeMat;
+    group._projIdx = idx;
+    group._color   = new THREE.Color(proj.color);
+    scene.add(group);
+    return group;
+  });
+
+  // ── Scroll state ─────────────────────────────────────────────────────
+  // scrollProgress = 0..1 over the entire projects-scroll div
+  // We map this to a continuous index 0..N-1
+  let rawProgress   = 0; // 0..1
+  let smoothIndex   = 0; // 0..N-1, smoothed
+  let targetIndex   = 0;
+  let spineSparkle  = 0;
+  let spineRotY     = 0;
+  let targetRotY    = 0;
+  let lastScrollY   = window.scrollY;
+  let animIndex     = 0; // displayed index for HUD (integer)
+
+  function updateScrollState() {
+    const rect   = scroll.getBoundingClientRect();
+    const total  = scroll.offsetHeight - window.innerHeight;
+    const scrolled = -rect.top;
+    rawProgress  = Math.max(0, Math.min(1, scrolled / total));
+    // Index: 0 at progress=0, N-1 at progress=1
+    targetIndex  = rawProgress * (N - 1);
+  }
+
+  function updateHUD(idx) {
+    const i = Math.round(idx);
+    if (i === animIndex) return;
+    animIndex = i;
+    const proj = PROJECTS[Math.min(i, N-1)];
+    // Fade out, swap, fade in
+    [hudType,hudTitle,hudStack,ctrNum,hudGithub].forEach(el => el.style.opacity='0');
+    setTimeout(() => {
+      hudType.textContent  = proj.type;
+      hudTitle.textContent = proj.title;
+      hudStack.innerHTML   = proj.stack.map(s=>`<span>${s}</span>`).join('');
+      ctrNum.textContent   = String(i+1).padStart(2,'0');
+      hudGithub.href       = proj.github;
+      [hudType,hudTitle,hudStack,ctrNum,hudGithub].forEach(el => el.style.transition='opacity .35s ease');
+      [hudType,hudTitle,hudStack,ctrNum,hudGithub].forEach(el => el.style.opacity='1');
+    }, 200);
+  }
+
+  // ── Position cards on cylinder ─────────────────────────────────────
+  // Active Theory places all cards at fixed cylinder positions, then
+  // rotates the WHOLE cylinder based on scroll → current card swings to front.
+  // Front = angle 0 (camera is at +Z looking at origin)
+  // Cards spread evenly: angleStep = 2π/N
+  const ANGLE_STEP = (Math.PI * 2) / N;
+  // Cylinder axis offset to match spine position
+  const CYL_X = 2.5; // same as spineGroup.position.x
+
+  function positionCards(contIdx) {
+    // contIdx = continuous 0..N-1
+    cards.forEach((grp, i) => {
+      // Angular offset of this card from the "front" position
+      // As contIdx increases, cards rotate counter-clockwise (next card comes to front)
+      const angle = ANGLE_STEP * i - contIdx * ANGLE_STEP;
+      // Cylinder: x and z positions
+      const cx = CYL_X + Math.sin(angle) * CARD_RADIUS;
+      const cz = Math.cos(angle) * CARD_RADIUS;
+      grp.position.set(cx, 0, cz);
+      // Card always faces the camera (billboards around Y axis)
+      grp.rotation.y = -angle;
+
+      // Depth-based: front card (angle≈0) = full opacity/scale, others dim+small
+      // Use cosine of angle clamped: front = 1, sides = 0.5, back = 0
+      const cosA   = Math.cos(angle);
+      const front  = Math.max(0, cosA);          // 0..1
+      const scale  = 0.65 + front * 0.35;        // 0.65..1.0
+      const opacity= 0.15 + front * front * .85; // subtle fade for back cards
+
+      grp.scale.setScalar(scale);
+      grp.children[0].material.opacity = opacity;         // card face
+      grp.children[0].material.needsUpdate = true;
+      grp._edgeMat.opacity = front * front * .6;          // edge glow
+      grp._edgeMat.needsUpdate = true;
+    });
+  }
+
+  // Scroll cue fades out once user starts scrolling
+  let cueVisible = true;
+  window.addEventListener('scroll', () => {
+    updateScrollState();
+    if (cueVisible && rawProgress > 0.02) {
+      cue.style.transition = 'opacity .5s'; cue.style.opacity = '0'; cueVisible = false;
+    }
+    // Spin spine on scroll delta
+    const dy = window.scrollY - lastScrollY;
+    lastScrollY = window.scrollY;
+    targetRotY += dy * .004;
+  }, { passive:true });
+
+  // Initial state
+  updateScrollState();
+  positionCards(0);
+  updateHUD(0);
+
+  // ── Render loop ──────────────────────────────────────────────────────
+  let prevT = 0;
+  function frame(now) {
+    requestAnimationFrame(frame);
+    const dt = Math.min((now - prevT) / 16.67, 3); prevT = now;
+
+    // Smooth scroll index (lerp, matching AT's 0.05 factor per frame at 60fps)
+    smoothIndex += (targetIndex - smoothIndex) * 0.07 * dt;
+
+    // Update card positions every frame
+    positionCards(smoothIndex);
+
+    // Update HUD
+    updateHUD(Math.round(smoothIndex));
+
+    // Spine rotation: lerp toward target
+    spineRotY += (targetRotY - spineRotY) * .05 * dt;
+    spineGroup.rotation.y = spineRotY;
+
+    // Idle spine bob
+    spineGroup.rotation.x = Math.sin(now * .0001) * .08;
+
+    // Sparkle — travelling wave down the vertebrae
+    spineSparkle += .005;
+    updateSpineSparkle(spineSparkle);
+
+    // Camera gentle drift
+    const t = now * .001;
+    camera.position.x = Math.sin(t * .12) * .4;
+    camera.position.y = Math.sin(t * .09) * .25;
+    camera.lookAt(CYL_X * .3, 0, 0);
+
+    renderer.render(scene, camera);
+  }
+  frame(0);
+})();
+
+// ═══════════════════════════════════════════════════════════════════════════
+// HAMBURGER MENU
+// ═══════════════════════════════════════════════════════════════════════════
+const hamburger = document.getElementById('nav-hamburger');
+const overlay   = document.getElementById('nav-overlay');
+
+function openMenu() {
+  hamburger.classList.add('active');
+  hamburger.setAttribute('aria-expanded','true');
+  overlay.classList.add('open');
+  overlay.setAttribute('aria-hidden','false');
+  document.body.style.overflow = 'hidden';
+}
+function closeMenu() {
+  hamburger.classList.remove('active');
+  hamburger.setAttribute('aria-expanded','false');
+  overlay.classList.remove('open');
+  overlay.setAttribute('aria-hidden','true');
+  document.body.style.overflow = '';
+}
+
+hamburger.addEventListener('click', () => {
+  hamburger.classList.contains('active') ? closeMenu() : openMenu();
+});
+
+// Close on any nav overlay link click
+document.querySelectorAll('.nav-overlay-link').forEach(a => {
+  a.addEventListener('click', closeMenu);
+});
+
+// Close on Escape
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeMenu(); });
+
+// ═══════════════════════════════════════════════════════════════════════════
+// CURSOR
+// ═══════════════════════════════════════════════════════════════════════════
+const cursor = document.getElementById('cursor');
+const ring   = document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove', e => {
+  mx=e.clientX; my=e.clientY;
+  cursor.style.left=mx+'px'; cursor.style.top=my+'px';
+});
+(function animRing(){
+  rx+=(mx-rx)*.12; ry+=(my-ry)*.12;
+  ring.style.left=rx+'px'; ring.style.top=ry+'px';
+  requestAnimationFrame(animRing);
+})();
+document.querySelectorAll('a,.skill-tag,.hack-item,.cert-item').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ cursor.style.width='4px';cursor.style.height='4px';ring.style.width='50px';ring.style.height='50px';ring.style.borderColor='rgba(0,255,255,.8)'; });
+  el.addEventListener('mouseleave',()=>{ cursor.style.width='8px';cursor.style.height='8px';ring.style.width='32px';ring.style.height='32px';ring.style.borderColor='rgba(0,255,255,.4)'; });
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
+// SCROLL PROGRESS BAR
+// ═══════════════════════════════════════════════════════════════════════════
+const progressBar = document.getElementById('scroll-progress');
+function updateProgress() {
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  progressBar.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + '%';
+}
+window.addEventListener('scroll', updateProgress, { passive: true });
+updateProgress();
+
+// ═══════════════════════════════════════════════════════════════════════════
+// SCROLL REVEAL — distinct stagger per element type
+// ═══════════════════════════════════════════════════════════════════════════
+const reveals = document.querySelectorAll('.reveal');
+
+// Grid containers: stagger siblings that share the same direct grid parent
+const gridSelectors = '.skills-grid, .hack-grid, .cert-list, .stats-grid, .about-grid';
+
+reveals.forEach(el => {
+  const gridParent = el.closest(gridSelectors);
+  if (gridParent) {
+    // Only count direct .reveal children of the grid
+    const siblings = [...gridParent.children].filter(c => c.classList.contains('reveal'));
+    const idx = siblings.indexOf(el);
+    el.dataset.delay = idx * 100; // 0, 100, 200, 300 …
+  } else {
+    el.dataset.delay = 0;
+  }
+});
+
+const revObs = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    const el    = entry.target;
+    const delay = parseInt(el.dataset.delay || 0);
+    setTimeout(() => el.classList.add('visible'), delay);
+    revObs.unobserve(el);
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+reveals.forEach(el => revObs.observe(el));
+
+// Nav active highlight
+const navSections = document.querySelectorAll('section[id], div[id="projects-scroll"]');
+const navLinks    = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  navSections.forEach(s => { if (window.scrollY >= s.offsetTop - 200) cur = s.id; });
+  navLinks.forEach(a => { a.style.color = a.getAttribute('href') === '#' + cur ? 'var(--cyan)' : ''; });
+}, { passive: true });
+</script>
 </body>
 </html>
