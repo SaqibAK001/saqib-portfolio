@@ -555,11 +555,26 @@
 @media (max-width:768px){
   .proj-hud-label{
     top:auto !important;
-    bottom:7rem !important;
+    bottom:7.5rem !important;
     left:1.5rem !important;
     right:1.5rem !important;
     transform:none !important;
+    background: linear-gradient(135deg, rgba(0,0,0,.78), rgba(0,0,0,.5) 65%, rgba(0,0,0,.15));
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    padding: 1rem 1.1rem;
+    border-radius: 6px;
+    border: 1px solid rgba(0,255,255,.12);
   }
+  .proj-hud-title,
+  .proj-hud-type,
+  .proj-hud-stack span {
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+  .proj-hud-title { font-size: clamp(1rem,5.5vw,1.4rem) !important; margin-bottom:.85rem !important; }
+  .proj-hud-stack { gap:5px; }
+  .proj-hud-stack span { font-size:9px; padding:3px 8px; }
 }
 
 /* MOBILE FIXES */
@@ -651,6 +666,12 @@
    Positioned to align with .proj-hud-label (left:3rem, vertically centred
    but nudged below the stack tags). JS adds/removes .proj-btn-visible
    based on whether #projects-scroll is in the viewport.                  */
+.proj-btn-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
 .proj-github-fixed {
   position: fixed;
   /* Align with hud-label: left 3rem, vertically ~60% down viewport */
@@ -668,8 +689,14 @@
 @media (max-width: 768px) {
   .proj-github-fixed {
     left: 1.5rem;
+    right: 1.5rem;
     top: auto;
-    bottom: 3rem;
+    bottom: 2.5rem;
+  }
+  .proj-btn-group {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
   }
 }
 
@@ -755,7 +782,7 @@
     </h1>
     <div class="hero-bottom">
       <div class="hero-desc">
-        Third-year CS Engineering student with hands-on experience across <strong>AI/ML</strong>, <strong>full-stack development</strong>, data engineering, and business intelligence. Finalist in 4 national &amp; international hackathons.
+        Fourth-year CS Engineering student with hands-on experience across <strong>AI/ML</strong>, <strong>full-stack development</strong>, data engineering, and business intelligence. Finalist in 4 national &amp; international hackathons.
       </div>
       <div class="hero-tags">
         <span class="hero-tag">LangChain / RAG</span>
@@ -961,16 +988,26 @@
 </section>
 
 
-<!-- GitHub button lives here — OUTSIDE #projects-scroll — so it has zero
-     connection to the sticky scroll container and tapping it never triggers scroll -->
-<a  id="hud-github"
-    class="proj-github-btn proj-github-fixed"
-    href="https://github.com/SaqibAK001/EDITH"
-    target="_blank"
-    rel="noopener noreferrer">
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
-  View on GitHub
-</a>
+<!-- GitHub / Live buttons live here — OUTSIDE #projects-scroll — so they have zero
+     connection to the sticky scroll container and tapping never triggers scroll -->
+<div id="hud-btn-group" class="proj-btn-group proj-github-fixed">
+  <a  id="hud-github"
+      class="proj-github-btn"
+      href="https://github.com/SaqibAK001/EDITH"
+      target="_blank"
+      rel="noopener noreferrer">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+    View on GitHub
+  </a>
+  <a  id="hud-live"
+      class="proj-github-btn"
+      href="https://edith-six.vercel.app/"
+      target="_blank"
+      rel="noopener noreferrer">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+    View Project
+  </a>
+</div>
 
 <footer>
   <p>© 2026 Saqib Ahmed K · Bangalore, India</p>
@@ -989,7 +1026,8 @@ const PROJECTS = [
     stack:['Python','Flask','LangChain','RAG'],
     color:'#00ffff',
     accent:'#00ddff',
-    github:'https://github.com/SaqibAK001/EDITH'
+    github:'https://github.com/SaqibAK001/EDITH',
+    live:'https://edith-six.vercel.app/'
   },
 
   {
@@ -1007,7 +1045,8 @@ const PROJECTS = [
     stack:['FastAPI','MongoDB','React.js','JWT'],
     color:'#00ffaa',
     accent:'#00cc88',
-    github:'https://github.com/SaqibAK001/transport-logistics'
+    github:'https://github.com/SaqibAK001/transport-logistics',
+    live:'https://translwebapp.netlify.app/'
   },
 
   {
@@ -1016,7 +1055,8 @@ const PROJECTS = [
     stack:['React.js','JavaScript','DQN','A*'],
     color:'#ffaa00',
     accent:'#ff8800',
-    github:'https://github.com/SaqibAK001/adaptive-pathfinding'
+    github:'https://github.com/SaqibAK001/adaptive-pathfinding',
+    live:'https://adaptive-pathfinding.netlify.app/'
   },
 
   {
@@ -1034,7 +1074,8 @@ const PROJECTS = [
     stack:['Power BI','DAX','Data Modeling'],
     color:'#aaffdd',
     accent:'#66ccaa',
-    github:'https://github.com/SaqibAK001/bi_dashboards/tree/main/Demand%20Forecasting'
+    github:'https://github.com/SaqibAK001/bi_dashboards/tree/main/Demand%20Forecasting',
+    live:'https://saqibak001.github.io/bi_dashboards/projects/Demand%20Forecasting/Demand%20Forecast%20Dashboard.pdf'
   },
 ];
 const N = PROJECTS.length;
@@ -1166,6 +1207,7 @@ function seededRand(seed) {
   const hudStack = document.getElementById('hud-stack');
   const ctrNum   = document.getElementById('ctr-num');
   const hudGithub= document.getElementById('hud-github');
+  const hudLive  = document.getElementById('hud-live');
   const cue     = document.getElementById('proj-cue');
 
   // Make the scroll container tall: (N-1) screens of scrolling + 1 screen padding
@@ -1417,6 +1459,12 @@ function seededRand(seed) {
       hudStack.innerHTML   = proj.stack.map(s=>`<span>${s}</span>`).join('');
       ctrNum.textContent   = String(i+1).padStart(2,'0');
       hudGithub.href       = proj.github;  // fixed overlay button (same element, now outside scroll)
+      if (proj.live) {
+        hudLive.href = proj.live;
+        hudLive.style.display = 'inline-flex';
+      } else {
+        hudLive.style.display = 'none';
+      }
       [hudType,hudTitle,hudStack,ctrNum].forEach(el => el.style.transition='opacity .35s ease');
       [hudType,hudTitle,hudStack,ctrNum].forEach(el => el.style.opacity='1');
     }, 200);
@@ -1517,7 +1565,7 @@ function seededRand(seed) {
 
 // ── Show/hide the fixed GitHub button only while projects section is visible ──
 (function() {
-  const btn = document.getElementById('hud-github');
+  const btn = document.getElementById('hud-btn-group');
   const projectsScroll = document.getElementById('projects-scroll');
   if (!btn || !projectsScroll) return;
 
